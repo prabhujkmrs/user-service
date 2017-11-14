@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: user-service
+  mvc:
+    throw-exception-if-no-handler-found: false
+  resources:
+    add-mappings: true
+
+logging:
+  level:
+    root: INFO
+  file: ./logs/${spring.application.name}-server.log # Server logs
+  accesslog:
+    pattern: '%h %l %u [%t] "%r" %s %b "Referer: %i{Referer}" "X-Forwarded-For: %i{X-Forwarded-For}" "User-Agent: %i{User-Agent}"'
+    file: ./logs/${spring.application.name}-access.log
+
+management:
+  security:
+    enabled: true
+
+security:
+  basic:
+    enabled: false
+  user:
+    name: admin
+    password: password
