@@ -11,7 +11,9 @@ script:
   - docker-compose up --build -d
   - ./scripts/healthcheck.sh
   - docker-compose down
-  - docker build -t $IMAGE_NAME:$TRAVIS_BUILD_NUMBER .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker build -t angerservice/user-service:$TRAVIS_BUILD_NUMBER .
+  - docker push angerservice/user-service:$TRAVIS_BUILD_NUMBER
 cache:
   directories:
   - $HOME/.m2
