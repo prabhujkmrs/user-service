@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    <springProperty scope="context" name="LOG_PATH" source="logging.accesslog.file"/>
+    <springProperty scope="context" name="LOG_PATTERN" source="logging.accesslog.pattern"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <file>${LOG_PATH}</file>
+
+        <!-- Rollover logs every hour -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}.%d{yyyy-MM-dd-HH, UTC}</fileNamePattern>
+        </rollingPolicy>
+    </appender>
+
+    <appender-ref ref="FILE"/>
+</configuration>
