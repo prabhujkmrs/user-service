@@ -6,6 +6,7 @@ env:
 services:
   - docker
 script:
+  - ./mvnw findbugs:findbugs
   - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
   - docker-compose up --build -d
@@ -17,3 +18,6 @@ script:
 cache:
   directories:
   - $HOME/.m2
+
+notifications:
+    slack: microservices-course:kWyowfRrndmVbAVCZS41kaqM
