@@ -4,11 +4,6 @@ server:
 spring:
   application:
     name: user-service
-    profiles:
-        # The commented value for `active` can be replaced with valid Spring profiles to load.
-        # Otherwise, it will be filled in by maven when building the WAR file
-        # Either way, it can be overridden by `--spring.profiles.active` value passed in the commandline or `-Dspring.profiles.active` set in `JAVA_OPTS`
-        # java -jar -Dspring.profiles.active=prod spring-boot-demo-0.0.1-SNAPSHOT.jar
   mvc:
     throw-exception-if-no-handler-found: false
   resources:
@@ -32,32 +27,3 @@ security:
   user:
     name: admin
     password: password
-
----
-
-spring:
-    profiles:
-        active: dev
-        include: swagger
-
-management:
-  security:
-    enabled: true
-
-security:
-  basic:
-    enabled: false
-  user:
-    name: admin
-    password: password
-
----
-
-spring:
-    profiles: prod
-    server:
-        port: 8080
-        compression:
-            enabled: true
-            mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
-            min-response-size: 1024

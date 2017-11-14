@@ -113,7 +113,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <argLine>${failsafeArgLine}</argLine>
+                           <!-- <argLine>${failsafeArgLine}</argLine>-->
                             <skipTests>${skip.integration.tests}</skipTests>
                         </configuration>
                     </execution>
