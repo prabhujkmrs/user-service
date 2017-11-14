@@ -2,6 +2,7 @@ FROM java:openjdk-8-jre-alpine
 
 ENV ENVIRONMENT dev
 ENV PORT 8080
+ENV MONGO_URI mongo
 
 WORKDIR /var/app/user-service
 

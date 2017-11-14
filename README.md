@@ -1,5 +1,7 @@
 # USER SERVICE API
 
+[![Build Status](https://travis-ci.org/anger-service/users-service.svg?branch=pipeline)](https://travis-ci.org/anger-service/users-service)
+
 ## Prerequisites
 
 In order to build the project, you will have to install the following:
