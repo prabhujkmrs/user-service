@@ -133,6 +133,14 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/dto/*.*</exclude>
+                        <exclude>**/dao/*.*</exclude>
+                        <exclude>**/HttpExceptionResponse*.*</exclude>
+                        <exclude>**/UserServiceApplication.*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>pre-unit-test</id>
@@ -194,10 +202,6 @@
                                             <minimum>0.80</minimum>
                                         </limit>
                                     </limits>
-                                    <excludes>
-                                        <exclude>com.anger.service.userservice.config.SwaggerConfig</exclude>
-                                        <exclude>com.anger.service.userservice.UserServiceApplication</exclude>
-                                    </excludes>
                                 </rule>
                             </rules>
                         </configuration>

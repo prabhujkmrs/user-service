@@ -29,7 +29,7 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-
+    @Autowired
     private UserService userService;
 
     @ApiOperation("Get all data for a given user")

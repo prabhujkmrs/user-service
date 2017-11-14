@@ -2,14 +2,16 @@ package com.anger.service.userservice.exception.handler;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-/**
- * This is used to map a Java exception to an HTTP status with a relevant message.
- */
+
 @Builder
 @EqualsAndHashCode
+@Getter
+@Setter
 public class HttpExceptionResponse {
 
     private int status;
