@@ -195,7 +195,7 @@
                                         </limit>
                                     </limits>
                                     <excludes>
-                                        <exclude>com.anger.service.userservice.SwaggerConfig</exclude>
+                                        <exclude>com.anger.service.userservice.config.SwaggerConfig</exclude>
                                         <exclude>com.anger.service.userservice.UserServiceApplication</exclude>
                                     </excludes>
                                 </rule>

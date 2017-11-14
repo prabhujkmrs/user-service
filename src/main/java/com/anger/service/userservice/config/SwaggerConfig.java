@@ -1,4 +1,4 @@
-package com.anger.service.userservice;
+package com.anger.service.userservice.config;
 
 import org.springframework.context.annotation.Bean;
 import springfox.documentation.builders.PathSelectors;
