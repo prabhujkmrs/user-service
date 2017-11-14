@@ -1,6 +1,7 @@
 version: '3'
 services:
   user-service:
+    image: anger-service/user-service
     build:
       context: .
     tty: true

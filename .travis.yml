@@ -2,18 +2,16 @@ language: java
 jdk: oraclejdk8
 install: true
 env:
-  # You may want to update this to whatever the latest version is, or keep it
-  # the same as your local machines. However, I have only tested it with 1.8.0+.
-  # There should be a time in the future when this is not necessary - it is
-  # explained in more detail below.
-  DOCKER_COMPOSE_VERSION: 1.8.0
-
-before_install:
-   - docker-compose version
+  - IMAGE_NAME = anger-service/user-service
+services:
+  - docker
 script:
   - ./mvnw clean install
   - bash <(curl -s https://codecov.io/bash)
-  -
+  - docker-compose up --build -d
+  - ./scripts/healthcheck.sh $IMAGE_NAME
+after_script:
+  - docker-compose down
 cache:
   directories:
   - $HOME/.m2
