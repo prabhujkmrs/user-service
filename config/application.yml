@@ -10,9 +10,11 @@ spring:
     add-mappings: true
   data:
     mongodb:
-      host: ${MONGO_URI}
-      port: 27017
-      database: users
+      host: 'ds163595.mlab.com'
+      port: 63595
+      database: anger-mongo
+      user: user-service
+      password: password1
 
 logging:
   level:
