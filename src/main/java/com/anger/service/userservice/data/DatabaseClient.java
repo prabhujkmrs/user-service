@@ -10,13 +10,13 @@ import java.util.List;
  */
 public interface DatabaseClient {
 
-    UserDto getUser(String userId);
+    UserDao getUser(String userId);
 
-    List<UserDto> getAllUsers();
+    UserDao createUser(UserDto userDto);
 
-    UserDto createUser(UserDto userDto);
+    UserDao updateUser(UserDto userDto);
 
-    UserDto updateUser(UserDto userDto);
+    List<UserDao> getAllUsers();
 
     void deleteUser(String userId);
 }

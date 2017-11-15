@@ -22,41 +22,33 @@ public class MongoDbClientImpl implements DatabaseClient {
     @Autowired
     private MongoOperations mongoOps;
 
-
     @Autowired
     DozerBeanMapper mapper;
 
     @Override
-    public List<UserDto> getAllUsers() {
-
-        List<UserDto> userDtoList = new ArrayList<>();
-        List<UserDao> userDaoList = mongoOps.findAll(UserDao.class);
-
-        for(UserDao userDao : userDaoList) {
-            userDtoList.add(mapDaoToDtoObject(userDao));
-        }
-
-        return userDtoList;
+    public List<UserDao> getAllUsers() {
+        return mongoOps.findAll(UserDao.class);
     }
 
     @Override
-    public UserDto getUser(String userId) {
+    public UserDao getUser(String userId) {
         // build mongo query
         Query query = new Query();
         query.addCriteria(Criteria.where("userId").is(userId));
         UserDao userDaoCopy = mongoOps.findOne(query, UserDao.class);
-        return mapDaoToDtoObject(userDaoCopy);
+        return userDaoCopy;
     }
 
     @Override
-    public UserDto createUser(UserDto userDto) {
+    public UserDao createUser(UserDto userDto) {
         UserDao userDaoCopy = mapDtoToDaoObject(userDto);
         mongoOps.save(userDaoCopy);
         return this.getUser(userDaoCopy.getUserId());
+
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto) {
+    public UserDao updateUser(UserDto userDto) {
         UserDao userDaoCopy = mapDtoToDaoObject(userDto);
         mongoOps.save(userDaoCopy);
         return this.getUser(userDaoCopy.getUserId());
@@ -76,4 +68,6 @@ public class MongoDbClientImpl implements DatabaseClient {
     private UserDao mapDtoToDaoObject(UserDto userDto) {
         return mapper.map(userDto, UserDao.class);
     }
+
+
 }
