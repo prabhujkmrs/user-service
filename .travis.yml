@@ -9,7 +9,6 @@ stages:
   - compile
   - name: deploy
     if: branch = master
-YAML
 
 jobs:
   include:
