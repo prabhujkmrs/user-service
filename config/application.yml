@@ -10,11 +10,8 @@ spring:
     add-mappings: true
   data:
     mongodb:
-      host: 'ds163595.mlab.com'
-      port: 63595
-      database: anger
-      user: admin
-      password: admin
+      host: 'cloud-externalload-m2u7w5bp0vuf-1604220535.eu-west-1.elb.amazonaws.com'
+      port: 27017
 
 logging:
   level:

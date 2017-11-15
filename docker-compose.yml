@@ -1,7 +1,7 @@
 version: '3'
 services:
   user-service:
-    image: anger-service/user-service
+    image: anger-service/user-service:28
     build:
       context: .
     tty: true
@@ -25,5 +25,5 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "echo 'db.stats().ok' | mongo localhost:27017/test --quiet"]
       interval: 30s
-      timeout: s
+      timeout: 1s
       retries: 3
