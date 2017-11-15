@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pjeyamukar on 14/11/2017.
@@ -33,6 +35,20 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation("Get all data for a given user")
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpStatus.SC_OK, message = "Success", response = UserDto.class),
+            @ApiResponse(code = HttpStatus.SC_BAD_REQUEST, message = "Bad Request", response = HttpExceptionResponse.class),
+            @ApiResponse(code = HttpStatus.SC_NOT_FOUND, message = "User Not Found", response = HttpExceptionResponse.class),
+            @ApiResponse(code = HttpStatus.SC_INTERNAL_SERVER_ERROR, message = "Internal Server Error", response = HttpExceptionResponse.class)})
+    public ResponseEntity<List<UserDto>> getAllUser() {
+        LOGGER.info("Fetching all users");
+
+        return ResponseEntity.status(HttpStatus.SC_OK).body(userService.getAllUser());
+    }
+
+    @ApiOperation("Get data for a given user")
     @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ApiResponses(value = {
@@ -57,8 +73,6 @@ public class UserController {
             @ApiResponse(code = HttpStatus.SC_INTERNAL_SERVER_ERROR, message = "Internal Server Error", response = HttpExceptionResponse.class)})
     public ResponseEntity<UserDto> createUser(@PathVariable String userId, @RequestBody @Valid UserDto userDto) {
 
-        userDto.setUserId(userId);
-
         LOGGER.info("Received request for creating user with id {}", userId);
 
         return ResponseEntity.status(HttpStatus.SC_CREATED).body(userService.createUser(userDto));
@@ -74,11 +88,24 @@ public class UserController {
             @ApiResponse(code = HttpStatus.SC_INTERNAL_SERVER_ERROR, message = "Internal Server Error", response = HttpExceptionResponse.class)})
     public ResponseEntity<UserDto> updateUser(@PathVariable String userId, @RequestBody UserDto userDto) {
 
-        userDto.setUserId(userId);
-
         LOGGER.info("Received request for updating user with id {}", userId);
 
         return ResponseEntity.status(HttpStatus.SC_OK).body(userService.updateUser(userDto));
     }
 
+    @ApiOperation("Delete user")
+    @DeleteMapping(value = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpStatus.SC_OK, message = "Success", response = UserDto.class),
+            @ApiResponse(code = HttpStatus.SC_BAD_REQUEST, message = "Bad Request", response = HttpExceptionResponse.class),
+            @ApiResponse(code = HttpStatus.SC_NOT_FOUND, message = "User Not Found", response = HttpExceptionResponse.class),
+            @ApiResponse(code = HttpStatus.SC_INTERNAL_SERVER_ERROR, message = "Internal Server Error",response = HttpExceptionResponse.class)})
+    public ResponseEntity<?> deleteUser(@PathVariable String userId) {
+        LOGGER.info("Received request for deleting user with id {}", userId);
+        userService.deleteUser(userId);
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("message", "ID: " + userId + " Deleted successfully");
+        return ResponseEntity.status(HttpStatus.SC_OK).body(dataMap);
+    }
 }
