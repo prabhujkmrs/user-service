@@ -1,9 +1,6 @@
 package com.anger.service.userservice.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -14,6 +11,8 @@ import java.time.Instant;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class UserDto {
 
@@ -40,4 +39,5 @@ public class UserDto {
     private String resetKey;
 
     private Instant resetDate = null;
+
 }
