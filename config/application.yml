@@ -12,9 +12,9 @@ spring:
     mongodb:
       host: 'ds163595.mlab.com'
       port: 63595
-      database: anger-mongo
-      user: user-service
-      password: password1
+      database: anger
+      user: admin
+      password: admin
 
 logging:
   level:
