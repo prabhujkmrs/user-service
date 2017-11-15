@@ -19,25 +19,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUser(String userId) {
 
-        UserDao userDao = databaseClient.getUser(userId);
-
-        return buildDto(userDao);
+//        UserDao userDao = databaseClient.getUser(userId);
+//
+//        return buildDto(userDao);
+        return null;
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
 
-        UserDao userDao = databaseClient.createUser(userDto);
-
-        return buildDto(userDao);
+//        UserDao userDao = databaseClient.createUser(userDto);
+//
+//        return buildDto(userDao);
+        return null;
     }
 
     @Override
     public UserDto updateUser(UserDto userDto) {
 
-        UserDao userDao = databaseClient.updateUser(userDto);
-
-        return buildDto(userDao);
+//        UserDao userDao = databaseClient.updateUser(userDto);
+//
+//        return buildDto(userDao);
+        return null;
     }
 
     private UserDto buildDto(UserDao userDao) {

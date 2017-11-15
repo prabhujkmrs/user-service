@@ -1,8 +1,9 @@
 package com.anger.service.userservice.controller;
 
+import com.anger.service.userservice.data.MongoDbClientImpl;
 import com.anger.service.userservice.dto.UserDto;
 import com.anger.service.userservice.exception.handler.HttpExceptionResponse;
-import com.anger.service.userservice.service.UserService;
+import com.anger.service.userservice.service.UserRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -16,7 +17,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pjeyamukar on 14/11/2017.
@@ -30,7 +33,22 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private UserService userService;
+    MongoDbClientImpl mongoDbClient;
+
+    @ApiOperation("Get all data for a given user")
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpStatus.SC_OK, message = "Success", response = UserDto.class),
+            @ApiResponse(code = HttpStatus.SC_BAD_REQUEST, message = "Bad Request", response = HttpExceptionResponse.class),
+            @ApiResponse(code = HttpStatus.SC_NOT_FOUND, message = "User Not Found", response = HttpExceptionResponse.class),
+            @ApiResponse(code = HttpStatus.SC_INTERNAL_SERVER_ERROR, message = "Internal Server Error", response = HttpExceptionResponse.class)})
+    public ResponseEntity<List<UserDto>> getAllUser() {
+
+        LOGGER.info("Fetching all users");
+
+        return ResponseEntity.status(HttpStatus.SC_OK).body(mongoDbClient.getAllUsers());
+    }
 
     @ApiOperation("Get all data for a given user")
     @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +62,7 @@ public class UserController {
 
         LOGGER.info("Fetching user with id {}", userId);
 
-        return ResponseEntity.status(HttpStatus.SC_OK).body(userService.getUser(userId));
+        return ResponseEntity.status(HttpStatus.SC_OK).body(mongoDbClient.getUser(userId));
     }
 
     @ApiOperation("Create user")
@@ -57,11 +75,9 @@ public class UserController {
             @ApiResponse(code = HttpStatus.SC_INTERNAL_SERVER_ERROR, message = "Internal Server Error", response = HttpExceptionResponse.class)})
     public ResponseEntity<UserDto> createUser(@PathVariable String userId, @RequestBody @Valid UserDto userDto) {
 
-        userDto.setUserId(userId);
-
         LOGGER.info("Received request for creating user with id {}", userId);
 
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(userService.createUser(userDto));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(mongoDbClient.createUser(userDto));
     }
 
     @ApiOperation("Update user details")
@@ -74,11 +90,29 @@ public class UserController {
             @ApiResponse(code = HttpStatus.SC_INTERNAL_SERVER_ERROR, message = "Internal Server Error", response = HttpExceptionResponse.class)})
     public ResponseEntity<UserDto> updateUser(@PathVariable String userId, @RequestBody UserDto userDto) {
 
-        userDto.setUserId(userId);
-
         LOGGER.info("Received request for updating user with id {}", userId);
 
-        return ResponseEntity.status(HttpStatus.SC_OK).body(userService.updateUser(userDto));
+        return ResponseEntity.status(HttpStatus.SC_OK).body(mongoDbClient.updateUser(userDto));
+    }
+
+    @ApiOperation("Delete user")
+    @DeleteMapping(value = "/{userId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ApiResponses(value = {
+            @ApiResponse(code = HttpStatus.SC_OK, message = "Success", response = UserDto.class),
+            @ApiResponse(code = HttpStatus.SC_BAD_REQUEST, message = "Bad Request", response = HttpExceptionResponse.class),
+            @ApiResponse(code = HttpStatus.SC_NOT_FOUND, message = "User Not Found", response = HttpExceptionResponse.class),
+            @ApiResponse(code = HttpStatus.SC_INTERNAL_SERVER_ERROR, message = "Internal Server Error", response = HttpExceptionResponse.class)})
+    public ResponseEntity<?> deleteUser(@PathVariable String userId) {
+
+        LOGGER.info("Received request for deleting user with id {}", userId);
+
+        mongoDbClient.deleteUser(userId);
+
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("message", "ID: " + userId + " Deleted successfully");
+
+        return ResponseEntity.status(HttpStatus.SC_OK).body(dataMap);
     }
 
 }
