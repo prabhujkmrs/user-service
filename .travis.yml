@@ -5,6 +5,12 @@ env:
   - IMAGE_NAME = anger-service/user-service
 services:
   - docker
+stages:
+  - compile
+  - name: deploy
+    if: branch = master
+YAML
+
 jobs:
   include:
     - stage: test
@@ -19,6 +25,13 @@ jobs:
         - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
         - docker build -t angerservice/user-service:$TRAVIS_BUILD_NUMBER .
         - docker push angerservice/user-service:$TRAVIS_BUILD_NUMBER
+    - stage: deploy
+      script: docker service create \
+                  --name dd-agent \
+                  --replicas 3 \
+                  -e API_KEY=1f63eb31d0b0c18f561d9e3929700c34 \
+                  -e SD_BACKEND=docker \
+                  datadog/docker-dd-agent
 cache:
   directories:
   - $HOME/.m2
