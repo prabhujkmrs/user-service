@@ -6,7 +6,7 @@ env:
 services:
   - docker
 stages:
-  - compile
+  - test
   - name: deploy
     if: branch = master
 
